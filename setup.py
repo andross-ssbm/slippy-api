@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='slippy_api',
-    version='0.1',
+    version='0.2',
     author='Sophia',
     author_email='sophimander@gmail.com',
     description='API wrapper for slippi.gg',
@@ -16,4 +16,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
+    include_package_data=True,
 )
