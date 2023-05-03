@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include slippi *.py
+recursive-exclude tests *
+global-exclude *.pyc
