@@ -8,6 +8,11 @@ setuptools.setup(
     description='API wrapper for slippi.gg',
     long_description='Simple wrapper for the GraphQL api on slippi.gg',
     long_description_content_type='text/markdown',
+    install_requires=[
+        'requests~=2.29.0',
+        'ratelimiter~=1.2.0.post0',
+        'pytest~=7.3.1'
+    ],
     url='https://github.com/ConstObject/slippy-api',
     packages=setuptools.find_packages(),
     classifiers=[
