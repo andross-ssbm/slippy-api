@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-import logging
+from slippi.custom_logging import CustomFormatter
 
-logger = logging.getLogger(f'andross.{__name__}')
+logger = CustomFormatter().get_logger()
 
 
 @dataclass
@@ -40,6 +40,7 @@ rank_list = [
 
 
 def get_rank(elo: float, daily_regional_placement: int = None, daily_global_placement: int = None):
+    logger.info(f'get_rank: {elo}, {daily_regional_placement}, {daily_global_placement}')
     if daily_regional_placement or daily_global_placement:
         return grand_master.rank_name
 

@@ -1,7 +1,6 @@
-import logging
+from slippi.custom_logging import CustomFormatter
 
-logger = logging.getLogger(f'andross.{__name__}')
-
+logger = CustomFormatter().get_logger()
 
 slippi_character_url = 'https://slippi.gg/images/characters/stock-icon-?-0.png'
 
@@ -75,14 +74,14 @@ def get_key_from_value(value, dict):
 
 
 def get_character_name(char_id: int) -> str:
-    logger.debug(f'get_character_name: {char_id}')
+    logger.info(f'get_character_name: {char_id}')
     if char_id == 255:
         char_id = 0
     return get_key_from_value(char_id, SlippiCharacterId)
 
 
 def get_character_id(name: str, dk_claus: bool = False) -> int:
-    logger.debug(f'get_character_id: {name}')
+    logger.info(f'get_character_id: {name}')
     character_id = SlippiCharacterId.get(name)
     if dk_claus and character_id == 0:
         character_id = 255
@@ -90,5 +89,5 @@ def get_character_id(name: str, dk_claus: bool = False) -> int:
 
 
 def get_character_url(name: str) -> str:
-    logger.debug(f'get_character_url: {name}')
+    logger.info(f'get_character_url: {name}')
     return slippi_character_url.replace('?', str(get_character_id(name)))

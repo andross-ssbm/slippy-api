@@ -4,9 +4,10 @@ from re import match
 
 import logging
 
+from slippi.custom_logging import CustomFormatter
 from slippi.slippi_user import SlippiUser
 
-logger = logging.Logger(f'andross.{__name__}')
+logger = CustomFormatter().get_logger()
 
 query_max = """
 fragment userProfilePage on User {
@@ -101,6 +102,7 @@ class SlippiRankedAPI:
 
     @staticmethod
     def is_valid_connect_code(connect_code: str) -> bool:
+        logger.info(f'is_valid_connect_code: {connect_code}')
         return True if (match(r"^(?=.{3,9}$)[a-zA-Z]{1,7}#[0-9]{1,7}$", connect_code)) else False
 
     @staticmethod
@@ -124,6 +126,7 @@ class SlippiRankedAPI:
         }
         response = requests.post('https://gql-gateway-dot-slippi.uc.r.appspot.com/graphql', json=payload,
                                  headers=headers)
+        logger.debug(f'response: {response.json()}')
         return response.json()
 
     def get_player_data_throttled(self, connect_code: str, is_max: bool = False):
@@ -134,7 +137,7 @@ class SlippiRankedAPI:
         logger.info(f'get_player_ranked_data: {connect_code}')
         player_data = self.get_player_data_throttled(connect_code, is_max)
 
-        logger.debug(f'player_data: {logger}')
+        logger.debug(f'player_data: {player_data}')
         if not player_data or not player_data['data']['getConnectCode']:
             return
 
