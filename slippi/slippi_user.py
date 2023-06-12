@@ -100,8 +100,10 @@ class SlippiUser:
     def get_rank(self) -> str:
         # Check if they've played their placement games, or else return 'None'
         if (self.ranked_profile.wins + self.ranked_profile.losses) < 5:
-            return 'None'
-        return get_rank(self.ranked_profile.rating_ordinal, self.ranked_profile.daily_regional_placement)
+            return 'None' if not self.ranked_profile.wins and self.ranked_profile.losses else 'Pending'
+        return get_rank(self.ranked_profile.rating_ordinal,
+                        self.ranked_profile.daily_regional_placement,
+                        self.ranked_profile.daily_global_placement)
 
     def get_user_profile_page(self) -> str:
         return f'https://slippi.gg/user/{self.connect_code.replace("#", "-")}'
