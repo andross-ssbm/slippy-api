@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-
 from slippi.custom_logging import CustomFormatter
 
 from slippi.slippi_ranks import get_rank
@@ -10,22 +9,27 @@ logger = CustomFormatter().get_logger()
 
 @dataclass
 class Characters:
+    """Represents a character with its ID, name, and game count."""
     id: int = 0
     character: str = ''
     game_count: int = 0
 
     def get_character_icon_url(self):
+        """Get the URL of the character's icon."""
         return get_character_url(self.character)
 
     def get_true_character_id(self):
+        """Get the true character ID, accounting for special cases."""
         return get_character_id(self.character)
 
     def __eq__(self, other):
+        """Check if two Characters instances are equal."""
         return self.character == other.character and self.game_count == other.game_count
 
 
 @dataclass
 class RankedNetplayProfile:
+    """Represents a ranked netplay profile with its ID, rating, win/loss counts, placements, and character data."""
     id: int = None
     rating_ordinal: float = 1100
     rating_update_count: int = None
@@ -39,6 +43,7 @@ class RankedNetplayProfile:
 
 @dataclass
 class SubscriptionStatus:
+    """Represents the subscription status with its active state and level."""
     active: bool = False
     level: str = 'NONE'
     gift: bool = False
@@ -46,12 +51,18 @@ class SubscriptionStatus:
 
 @dataclass
 class SlippiUser:
+    """Represents a Slippi user with their display name, connect code, subscription status, and ranked netplay profile."""
     display_name: str = ''
     connect_code: str = ''
     sub_status: SubscriptionStatus = SubscriptionStatus()
     ranked_profile: RankedNetplayProfile = RankedNetplayProfile()
 
     def __init__(self, slippi_data: dict):
+        """Initialize the SlippiUser object based on the provided Slippi data.
+
+        Args:
+            slippi_data (dict): The Slippi data containing the user information.
+        """
         logger.info('SlippiUser created')
 
         # Check if dict exists correctly
@@ -103,6 +114,11 @@ class SlippiUser:
         self.ranked_profile.daily_regional_placement = ranked_data['dailyRegionalPlacement'] or 0
 
     def get_rank(self) -> str:
+        """Get the rank of the Slippi user based on their ranked profile.
+
+        Returns:
+            str: The name of the rank.
+        """
         # Check if they've played their placement games, or else return 'None'
         if (self.ranked_profile.wins + self.ranked_profile.losses) < 5:
             return 'None' if not self.ranked_profile.wins and self.ranked_profile.losses else 'Pending'
@@ -110,9 +126,19 @@ class SlippiUser:
                         self.ranked_profile.daily_global_placement)
 
     def get_user_profile_page(self) -> str:
+        """Get the URL of the user's profile page.
+
+        Returns:
+            str: The URL of the user's profile page.
+        """
         return f'https://slippi.gg/user/{self.connect_code.replace("#", "-")}'
 
     def get_main_character(self) -> Characters:
+        """Get the main character of the Slippi user based on game count.
+
+        Returns:
+            Characters: The character with the highest game count.
+        """
         character_to_return = None
         highest_game_count = 0
         for guy in self.ranked_profile.characters:
