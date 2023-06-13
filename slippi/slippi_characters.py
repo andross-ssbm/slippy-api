@@ -2,9 +2,10 @@ from slippi.custom_logging import CustomFormatter
 
 logger = CustomFormatter().get_logger()
 
+# Define the base URL for Slippi character stock icons
 slippi_character_url = 'https://slippi.gg/images/characters/stock-icon-?-0.png'
 
-
+# A dictionary that maps character names to their corresponding IDs
 SlippiCharacterId = {
     'DONKEY_KONG': 0,  # Mapped to 255 in database
     'CAPTAIN_FALCON': 1,
@@ -35,7 +36,7 @@ SlippiCharacterId = {
     'None': 256
 }
 
-
+# A dictionary that maps character names to their corresponding colors
 SlippiCharacterColors = {
     'DONKEY_KONG': '#2f1003',
     'CAPTAIN_FALCON': '#353c5e',
@@ -67,27 +68,50 @@ SlippiCharacterColors = {
 
 
 def get_key_from_value(value, dict):
+    """Retrieve the key from a dictionary based on its value."""
     for key, val in dict.items():
         if val == value:
             return key
     return None
 
-
 def get_character_name(char_id: int) -> str:
+    """Get the character name based on its ID.
+
+    Args:
+        char_id (int): The ID of the character.
+
+    Returns:
+        str: The name of the character.
+    """
     logger.info(f'get_character_name: {char_id}')
     if char_id == 255:
         char_id = 0
     return get_key_from_value(char_id, SlippiCharacterId)
 
-
 def get_character_id(name: str, dk_claus: bool = False) -> int:
+    """Get the character ID based on its name.
+
+    Args:
+        name (str): The name of the character.
+        dk_claus (bool, optional): Whether to handle Donkey Kong Claus mapping. Defaults to False.
+
+    Returns:
+        int: The ID of the character.
+    """
     logger.info(f'get_character_id: {name}')
     character_id = SlippiCharacterId.get(name)
     if dk_claus and character_id == 0:
         character_id = 255
     return character_id
 
-
 def get_character_url(name: str) -> str:
+    """Get the URL of the character's stock icon based on its name.
+
+    Args:
+        name (str): The name of the character.
+
+    Returns:
+        str: The URL of the character's stock icon.
+    """
     logger.info(f'get_character_url: {name}')
     return slippi_character_url.replace('?', str(get_character_id(name)))
