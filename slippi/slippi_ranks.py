@@ -40,7 +40,7 @@ rank_list = [
 
 
 def get_rank(elo: float, daily_global_placement: int = None):
-    logger.info(f'get_rank: {elo}, {daily_regional_placement}, {daily_global_placement}')
+    logger.info(f'get_rank: {elo}, {daily_global_placement}')
     if daily_global_placement:
         return grand_master.rank_name
 
