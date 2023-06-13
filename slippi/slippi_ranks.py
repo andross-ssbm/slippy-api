@@ -39,9 +39,9 @@ rank_list = [
 ]
 
 
-def get_rank(elo: float, daily_regional_placement: int = None, daily_global_placement: int = None):
+def get_rank(elo: float, daily_global_placement: int = None):
     logger.info(f'get_rank: {elo}, {daily_regional_placement}, {daily_global_placement}')
-    if daily_regional_placement or daily_global_placement:
+    if daily_global_placement:
         return grand_master.rank_name
 
     for rank in rank_list:
