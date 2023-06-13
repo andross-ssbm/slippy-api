@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from slippi.custom_logging import CustomFormatter
 
 logger = CustomFormatter().get_logger()
@@ -7,12 +6,14 @@ logger = CustomFormatter().get_logger()
 
 @dataclass
 class Rank:
+    """Represents a rank with its lower bound, upper bound, and name."""
     lower_bound: float
     upper_bound: float
     rank_name: str
 
 
 class GrandMaster(Rank):
+    """Represents the Grandmaster rank, a subclass of Rank."""
     rank_name = 'Grandmaster'
 
 
@@ -40,7 +41,17 @@ rank_list = [
 
 
 def get_rank(elo: float, daily_global_placement: int = None):
+    """Get the rank based on the ELO score and daily global placement.
+
+    Args:
+        elo (float): The ELO score of the player.
+        daily_global_placement (int, optional): The daily global placement. Defaults to None.
+
+    Returns:
+        str: The name of the rank.
+    """
     logger.info(f'get_rank: {elo}, {daily_global_placement}')
+
     if daily_global_placement:
         return grand_master.rank_name
 
