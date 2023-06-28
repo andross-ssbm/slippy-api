@@ -39,7 +39,7 @@ SlippiCharacterId = {
 # A dictionary that maps character names to their corresponding colors
 SlippiCharacterColors = {
     'DONKEY_KONG': '#2f1003',
-    'CAPTAIN_FALCON': '#353c5e',
+    'CAPTAIN_FALCON': '#c51620',
     'FOX': '#ffb242',
     'GAME_AND_WATCH': '#000000',
     'KIRBY': '#ffbed8',
@@ -56,8 +56,8 @@ SlippiCharacterColors = {
     'JIGGLYPUFF': '#ffd6f0',
     'SAMUS': '#da490c',
     'YOSHI': '#008000',
-    'ZELDA': '#f9d9e6',
-    'SHEIK': '#4846db',
+    'ZELDA': '#ff6ac8',
+    'SHEIK': '#828681',
     'FALCO': '#494fd6',
     'YOUNG_LINK': '#009e01',
     'DR_MARIO': '#d1cfc9',
