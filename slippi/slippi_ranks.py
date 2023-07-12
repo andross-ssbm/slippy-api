@@ -52,7 +52,7 @@ def get_rank(elo: float, daily_global_placement: int = None):
     """
     logger.info(f'get_rank: {elo}, {daily_global_placement}')
 
-    if daily_global_placement:
+    if daily_global_placement and elo >= grand_master.lower_bound:
         return grand_master.rank_name
 
     for rank in rank_list:
