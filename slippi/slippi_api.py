@@ -108,7 +108,6 @@ fragment userProfilePage on User {
         dailyRegionalPlacement
         continent
         characters {
-            id
             character
             gameCount
             __typename
