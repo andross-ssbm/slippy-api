@@ -100,7 +100,7 @@ fragment userProfilePage on User {
         __typename
     }
     rankedNetplayProfile {
-        ..profileFieldsV2
+        ...profileFieldsV2
         __typename
     }
     __typename
