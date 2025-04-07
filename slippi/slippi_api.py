@@ -100,18 +100,7 @@ fragment userProfilePage on User {
         __typename
     }
     rankedNetplayProfile {
-        ratingOrdinal
-        ratingUpdateCount
-        wins
-        losses
-        dailyGlobalPlacement
-        dailyRegionalPlacement
-        continent
-        characters {
-            character
-            gameCount
-            __typename
-        }
+        ..profileFieldsV2
         __typename
     }
     __typename
