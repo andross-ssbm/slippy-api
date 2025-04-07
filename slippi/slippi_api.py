@@ -62,10 +62,7 @@ fragment userProfilePage on User {
 }
 
 query AccountManagementPageQuery($cc: String!, $uid: String!) {
-  getUser(fbUid: $uid) {
-    ...userProfilePage
-    __typename
-  }
+
   getConnectCode(code: $cc) {
     user {
       ...userProfilePage
