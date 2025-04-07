@@ -61,7 +61,7 @@ fragment userProfilePage on User {
   __typename
 }
 
-query AccountManagementPageQuery($cc: String!, $uid: String!) {
+query AccountManagementPageQuery($cc: String!) {
 
   getConnectCode(code: $cc) {
     user {

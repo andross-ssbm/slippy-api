@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name='slippy_api',
-    version='1.2',
+    version='1.3',
     author='Sophia',
     author_email='sophimander@gmail.com',
     description='API wrapper for slippi.gg',
