@@ -4,8 +4,8 @@ from re import match
 
 import logging
 
-from custom_logging import CustomFormatter
-from slippi_user import SlippiUser
+from slippi.custom_logging import CustomFormatter
+from slippi.slippi_user import SlippiUser
 
 # Get the logger instance from custom formatter
 logger = CustomFormatter().get_logger()

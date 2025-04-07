@@ -1,4 +1,4 @@
-from custom_logging import CustomFormatter
+from slippi.custom_logging import CustomFormatter
 
 logger = CustomFormatter().get_logger()
 

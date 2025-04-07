@@ -1,5 +1,4 @@
-#from slippi.slippi_api import SlippiRankedAPI
-from slippi_api import SlippiRankedAPI
+from slippi.slippi_api import SlippiRankedAPI
 
 import argparse
 

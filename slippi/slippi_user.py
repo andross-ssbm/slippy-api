@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from custom_logging import CustomFormatter
+from slippi.custom_logging import CustomFormatter
 
-from slippi_ranks import get_rank
-from slippi_characters import get_character_id, get_character_url
+from slippi.slippi_ranks import get_rank
+from slippi.slippi_characters import get_character_id, get_character_url
 
 logger = CustomFormatter().get_logger()
 
