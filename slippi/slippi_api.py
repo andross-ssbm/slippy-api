@@ -103,7 +103,6 @@ fragment userProfilePage on User {
         __typename
     }
     rankedNetplayProfileV2 {
-        id
         ratingOrdinal
         ratingUpdateCount
         wins
