@@ -99,7 +99,7 @@ fragment userProfilePage on User {
         code
         __typename
     }
-    rankedNetplayProfileV2 {
+    rankedNetplayProfile {
         ratingOrdinal
         ratingUpdateCount
         wins
