@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from slippi.custom_logging import CustomFormatter
+from custom_logging import CustomFormatter
 
-from slippi.slippi_ranks import get_rank
-from slippi.slippi_characters import get_character_id, get_character_url
+from slippi_ranks import get_rank
+from slippi_characters import get_character_id, get_character_url
 
 logger = CustomFormatter().get_logger()
 
@@ -10,7 +10,6 @@ logger = CustomFormatter().get_logger()
 @dataclass
 class Characters:
     """Represents a character with its ID, name, and game count."""
-    id: int = 0
     character: str = ''
     game_count: int = 0
 
@@ -30,7 +29,7 @@ class Characters:
 @dataclass
 class RankedNetplayProfile:
     """Represents a ranked netplay profile with its ID, rating, win/loss counts, placements, and character data."""
-    id: int = None
+    id: str = None
     rating_ordinal: float = 1100
     rating_update_count: int = None
     wins: int = 0
@@ -96,13 +95,12 @@ class SlippiUser:
             if character:
                 characters_list.append(
                     Characters(
-                        id=character['id'],
                         character=character['character'],
                         game_count=character['gameCount'])
                 )
 
         self.ranked_profile = RankedNetplayProfile(
-            id=int(ranked_data['id'], 16),
+            id=ranked_data['id'],
             rating_ordinal=ranked_data['ratingOrdinal'],
             rating_update_count=ranked_data['ratingUpdateCount'],
             wins=ranked_data['wins'] or 0,

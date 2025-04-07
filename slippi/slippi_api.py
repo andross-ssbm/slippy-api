@@ -4,14 +4,31 @@ from re import match
 
 import logging
 
-from slippi.custom_logging import CustomFormatter
-from slippi.slippi_user import SlippiUser
+from custom_logging import CustomFormatter
+from slippi_user import SlippiUser
 
 # Get the logger instance from custom formatter
 logger = CustomFormatter().get_logger()
 
 # GraphQL query for maximum player data
 query_max = """
+fragment profileFieldsV2 on NetplayProfileV2 {
+  id
+  ratingOrdinal
+  ratingUpdateCount
+  wins
+  losses
+  dailyGlobalPlacement
+  dailyRegionalPlacement
+  continent
+  characters {
+    character
+    gameCount
+    __typename
+  }
+  __typename
+}
+
 fragment userProfilePage on User {
   fbUid
   displayName
@@ -26,24 +43,24 @@ fragment userProfilePage on User {
     __typename
   }
   rankedNetplayProfile {
-    id
-    ratingOrdinal
-    ratingUpdateCount
-    wins
-    losses
-    dailyGlobalPlacement
-    dailyRegionalPlacement
-    continent
-    characters {
+    ...profileFieldsV2
+    __typename
+  }
+  rankedNetplayProfileHistory {
+    ...profileFieldsV2
+    season {
       id
-      character
-      gameCount
+      startedAt
+      endedAt
+      name
+      status
       __typename
     }
     __typename
   }
   __typename
 }
+
 query AccountManagementPageQuery($cc: String!, $uid: String!) {
   getUser(fbUid: $uid) {
     ...userProfilePage
@@ -62,13 +79,30 @@ query AccountManagementPageQuery($cc: String!, $uid: String!) {
 
 # GraphQL query for minimum player data
 query_min = """
+fragment profileFieldsV2 on NetplayProfileV2 {
+  id
+  ratingOrdinal
+  ratingUpdateCount
+  wins
+  losses
+  dailyGlobalPlacement
+  dailyRegionalPlacement
+  continent
+  characters {
+    character
+    gameCount
+    __typename
+  }
+  __typename
+}
+
 fragment userProfilePage on User {
     displayName
     connectCode {
         code
         __typename
     }
-    rankedNetplayProfile {
+    rankedNetplayProfileV2 {
         id
         ratingOrdinal
         ratingUpdateCount
