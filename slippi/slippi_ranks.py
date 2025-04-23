@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from slippi.custom_logging import CustomFormatter
+from .custom_logging import CustomFormatter
 
 logger = CustomFormatter().get_logger()
 
