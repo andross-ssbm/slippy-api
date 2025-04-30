@@ -18,7 +18,7 @@ from slippi.slippi_api import SlippiRankedAPI
 slippi_api = SlippiRankedAPI()
 
 # Show slippi users data
-slippi_user = slippi_api.get_player_ranked_date('so#0', True)
+slippi_user = slippi_api.get_player_ranked_data('so#0', True)
 print(slippi_user)
 
 ```
