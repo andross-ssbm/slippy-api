@@ -198,7 +198,7 @@ class SlippiRankedAPI:
         player_data = self.get_player_data_throttled(connect_code, is_max)
 
         logger.debug(f'player_data: {player_data}')
-        if not player_data or not player_data['data']['getUser']['connectCode']['code']:#dunno
+        if not player_data or not player_data['data']['getUser']['connectCode']['code']:
             return
 
         return SlippiUser(player_data)
