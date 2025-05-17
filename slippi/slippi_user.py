@@ -30,6 +30,8 @@ class Characters:
 class RankedNetplayProfile:
     """Represents a ranked netplay profile with its ID, rating, win/loss counts, placements, and character data."""
     id: str = None
+    rating_mu: float = None
+    rating_sigma: float = None
     rating_ordinal: float = 1100
     rating_update_count: int = None
     wins: int = 0
@@ -65,11 +67,11 @@ class SlippiUser:
         logger.info('SlippiUser created')
 
         # Check if dict exists correctly
-        if not slippi_data['data']['getConnectCode']:
+        if not slippi_data['data']['getUser']['connectCode']['code']:
             return
 
         # Create local variables to use later
-        user_data = slippi_data['data']['getConnectCode']['user']
+        user_data = slippi_data['data']['getUser']
         ranked_data = user_data['rankedNetplayProfile']
 
         # Assign nothing if user_data not present
@@ -101,6 +103,8 @@ class SlippiUser:
 
         self.ranked_profile = RankedNetplayProfile(
             id=ranked_data['id'],
+            rating_mu=ranked_data['ratingMu'],
+            rating_sigma=ranked_data['ratingSigma'],
             rating_ordinal=ranked_data['ratingOrdinal'],
             rating_update_count=ranked_data['ratingUpdateCount'],
             wins=ranked_data['wins'] or 0,
