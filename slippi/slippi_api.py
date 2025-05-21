@@ -12,21 +12,11 @@ logger = CustomFormatter().get_logger()
 
 # GraphQL query for maximum player data
 query_max = """
-fragment profileFieldsV2 on NetplayProfileV2 {
-  id
-  ratingOrdinal
-  ratingUpdateCount
-  wins
-  losses
-  dailyGlobalPlacement
-  dailyRegionalPlacement
-  continent
-  characters {
-    character
-    gameCount
+query UserProfilePageQuery($cc: String, $uid: String) {
+  getUser(connectCode: $cc, fbUid: $uid) {
+    ...userProfilePage
     __typename
   }
-  __typename
 }
 
 fragment userProfilePage on User {
@@ -43,11 +33,11 @@ fragment userProfilePage on User {
     __typename
   }
   rankedNetplayProfile {
-    ...profileFieldsV2
+    ...profileFields
     __typename
   }
   rankedNetplayProfileHistory {
-    ...profileFieldsV2
+    ...profileFields
     season {
       id
       startedAt
@@ -61,22 +51,7 @@ fragment userProfilePage on User {
   __typename
 }
 
-query AccountManagementPageQuery($cc: String!) {
-
-  getConnectCode(code: $cc) {
-    user {
-      ...userProfilePage
-      __typename
-    }
-    __typename
-  }
-}
-
-"""
-
-# GraphQL query for minimum player data
-query_min = """
-fragment profileFieldsV2 on NetplayProfileV2 {
+fragment profileFields on NetplayProfile {
   id
   ratingOrdinal
   ratingUpdateCount
@@ -92,27 +67,64 @@ fragment profileFieldsV2 on NetplayProfileV2 {
   }
   __typename
 }
+"""
+
+# GraphQL query for minimum player data
+query_min = """
+query UserProfilePageQuery($cc: String, $uid: String) {
+  getUser(connectCode: $cc, fbUid: $uid) {
+    ...userProfilePage
+    __typename
+  }
+}
 
 fragment userProfilePage on User {
-    displayName
-    connectCode {
-        code
-        __typename
-    }
-    rankedNetplayProfile {
-        ...profileFieldsV2
-        __typename
+  fbUid
+  displayName
+  connectCode {
+    code
+    __typename
+  }
+  status
+  activeSubscription {
+    level
+    hasGiftSub
+    __typename
+  }
+  rankedNetplayProfile {
+    ...profileFields
+    __typename
+  }
+  rankedNetplayProfileHistory {
+    ...profileFields
+    season {
+      id
+      startedAt
+      endedAt
+      name
+      status
+      __typename
     }
     __typename
+  }
+  __typename
 }
-query AccountManagementPageQuery($cc: String!) {
-    getConnectCode(code: $cc) {
-        user {
-            ...userProfilePage
-            __typename
-        }
-        __typename
-    }
+
+fragment profileFields on NetplayProfile {
+  id
+  ratingOrdinal
+  ratingUpdateCount
+  wins
+  losses
+  dailyGlobalPlacement
+  dailyRegionalPlacement
+  continent
+  characters {
+    character
+    gameCount
+    __typename
+  }
+  __typename
 }
 """
 
@@ -158,14 +170,14 @@ class SlippiRankedAPI:
             "uid": connect_code.upper()
         }
         payload = {
-            "operationName": "AccountManagementPageQuery",
+            "operationName": "UserProfilePageQuery",
             "query": query_min if not is_max else query_max,
             "variables": variables
         }
         headers = {
             "content-type": "application/json"
         }
-        response = requests.post('https://gql-gateway-dot-slippi.uc.r.appspot.com/graphql', json=payload,
+        response = requests.post('https://internal.slippi.gg', json=payload,
                                  headers=headers)
         logger.debug(f'response: {response.json()}')
         return response.json()
@@ -199,7 +211,7 @@ class SlippiRankedAPI:
         player_data = self.get_player_data_throttled(connect_code, is_max)
 
         logger.debug(f'player_data: {player_data}')
-        if not player_data or not player_data['data']['getConnectCode']:
+        if not player_data or not player_data['data']['getUser']:
             return
 
         return SlippiUser(player_data)
@@ -216,7 +228,7 @@ class SlippiRankedAPI:
         """
         results = self.get_player_data_throttled(connect_code)
 
-        if not results or not results['data']['getConnectCode']:
+        if not results or not results['data']['getUser']:
             return False
 
         return True

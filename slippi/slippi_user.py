@@ -65,11 +65,11 @@ class SlippiUser:
         logger.info('SlippiUser created')
 
         # Check if dict exists correctly
-        if not slippi_data['data']['getConnectCode']:
+        if not slippi_data['data']['getUser']:
             return
 
         # Create local variables to use later
-        user_data = slippi_data['data']['getConnectCode']['user']
+        user_data = slippi_data['data']['getUser']
         ranked_data = user_data['rankedNetplayProfile']
 
         # Assign nothing if user_data not present
